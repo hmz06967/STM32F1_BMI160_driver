@@ -2,4 +2,4 @@
 
 
 ---
-#### Copyright (C) 2020 hamzaozkan.com.tr
+#### Copyright (C) 2020 [OZK](hamzaozkan.com.tr) 
