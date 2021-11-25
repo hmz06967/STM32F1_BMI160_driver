@@ -1,0 +1,86 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: hamza özkan, ehmzkan, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\flyozkan\Documents\STMicroelectronics\Stm32_RB100\bmi160\MDK-ARM\bmi160.uvprojx
+Project File Date:  11/24/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'bmi160'
+compiling main.c...
+../Core/Src/main.c(56): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+          sprintf(Buffer, "BMI160 initialization success !\n");
+../Core/Src/main.c(59): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+          sprintf(Buffer, "Chip ID 0x%X\n", bmi160dev.chip_id);
+../Core/Src/main.c(65): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  			  sprintf(Buffer, "bmi160_init error %d\n", rslt);
+../Core/Src/main.c(109): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  			  sprintf(Buffer, "bmi160 CONFIG error %d\n", rslt);
+../Core/Src/main.c(162): warning:  #188-D: enumerated type mixed with another type
+  		stat_i2c = write_register(BMI160_COMMAND_REG_ADDR, BMI160_SOFT_RESET_CMD);
+../Core/Src/main.c(163): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+      sprintf(Buffer, "Write// Add: 0x%X, Value: 0x%X, Stat: %d \n", BMI160_COMMAND_REG_ADDR, (uint8_t)BMI160_SOFT_RESET_CMD, stat_i2c);
+../Core/Src/main.c(166): warning:  #188-D: enumerated type mixed with another type
+  		stat_i2c = read_register(BMI160_COMMAND_REG_ADDR, (uint8_t*)&data);
+../Core/Src/main.c(167): warning:  #767-D: conversion from pointer to smaller integer
+      sprintf(Buffer, "Read// Add: 0x%X, Value: 0x%X, Stat: %d \n", BMI160_COMMAND_REG_ADDR, (uint8_t)data, stat_i2c);
+../Core/Src/main.c(167): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+      sprintf(Buffer, "Read// Add: 0x%X, Value: 0x%X, Stat: %d \n", BMI160_COMMAND_REG_ADDR, (uint8_t)data, stat_i2c);
+../Core/Src/main.c(185): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  	sprintf(Buffer, "starting.. !\n");
+../Core/Src/main.c(191): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  			sprintf(Buffer, "Device not ready  !\n"); 
+../Core/Src/main.c(210): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				sprintf(Buffer, "ax:%d ay:%d az:%d | gx:%d gy:%d gz:%d\n", bmi160_accel.x, bmi160_accel.y, bmi160_accel.z, bmi160_gyro.x, bmi160_gyro.y, bmi160_gyro.z);
+../Core/Src/main.c: 12 warnings, 0 errors
+linking...
+Program Size: Code=9172 RO-data=384 RW-data=16 ZI-data=1968  
+FromELF: creating hex file...
+"bmi160\bmi160.axf" - 0 Error(s), 12 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
+                ARM.CMSIS.5.8.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.5.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.3.0.pack
+                Keil.STM32F1xx_DFP.2.3.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_bmi160
+  C:\Users\flyozkan\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+  C:\Users\flyozkan\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.5.0
+      Include file:  CMSIS\Core\Include\tz_context.h
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
