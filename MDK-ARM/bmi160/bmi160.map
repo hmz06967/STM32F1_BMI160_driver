@@ -1380,15 +1380,15 @@ Image Symbol Table
     i.init_bmi160                            0x08002230   Section        0  main.o(i.init_bmi160)
     init_bmi160                              0x08002231   Thumb Code   126  main.o(i.init_bmi160)
     i.main                                   0x08002318   Section        0  main.o(i.main)
-    i.null_ptr_check                         0x08002480   Section        0  bmi160.o(i.null_ptr_check)
-    null_ptr_check                           0x08002481   Thumb Code    24  bmi160.o(i.null_ptr_check)
-    i.process_under_sampling                 0x08002498   Section        0  bmi160.o(i.process_under_sampling)
-    process_under_sampling                   0x08002499   Thumb Code    92  bmi160.o(i.process_under_sampling)
-    .constdata                               0x080024f4   Section       16  system_stm32f1xx.o(.constdata)
-    .constdata                               0x08002504   Section        8  system_stm32f1xx.o(.constdata)
-    .constdata                               0x0800250c   Section       40  _printf_hex_int.o(.constdata)
-    uc_hextab                                0x0800250c   Data          20  _printf_hex_int.o(.constdata)
-    lc_hextab                                0x08002520   Data          20  _printf_hex_int.o(.constdata)
+    i.null_ptr_check                         0x0800247c   Section        0  bmi160.o(i.null_ptr_check)
+    null_ptr_check                           0x0800247d   Thumb Code    24  bmi160.o(i.null_ptr_check)
+    i.process_under_sampling                 0x08002494   Section        0  bmi160.o(i.process_under_sampling)
+    process_under_sampling                   0x08002495   Thumb Code    92  bmi160.o(i.process_under_sampling)
+    .constdata                               0x080024f0   Section       16  system_stm32f1xx.o(.constdata)
+    .constdata                               0x08002500   Section        8  system_stm32f1xx.o(.constdata)
+    .constdata                               0x08002508   Section       40  _printf_hex_int.o(.constdata)
+    uc_hextab                                0x08002508   Data          20  _printf_hex_int.o(.constdata)
+    lc_hextab                                0x0800251c   Data          20  _printf_hex_int.o(.constdata)
     .data                                    0x20000000   Section       12  stm32f1xx_hal.o(.data)
     .data                                    0x2000000c   Section        4  system_stm32f1xx.o(.data)
     .bss                                     0x20000010   Section      332  main.o(.bss)
@@ -1604,11 +1604,11 @@ Image Symbol Table
     bmi160_set_regs                          0x08001dc7   Thumb Code   158  bmi160.o(i.bmi160_set_regs)
     bmi160_set_sens_conf                     0x08001e65   Thumb Code   218  bmi160.o(i.bmi160_set_sens_conf)
     bmi160_soft_reset                        0x08001f3f   Thumb Code    94  bmi160.o(i.bmi160_soft_reset)
-    main                                     0x08002319   Thumb Code   256  main.o(i.main)
-    AHBPrescTable                            0x080024f4   Data          16  system_stm32f1xx.o(.constdata)
-    APBPrescTable                            0x08002504   Data           8  system_stm32f1xx.o(.constdata)
-    Region$$Table$$Base                      0x08002534   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08002554   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08002319   Thumb Code   252  main.o(i.main)
+    AHBPrescTable                            0x080024f0   Data          16  system_stm32f1xx.o(.constdata)
+    APBPrescTable                            0x08002500   Data           8  system_stm32f1xx.o(.constdata)
+    Region$$Table$$Base                      0x08002530   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08002550   Number         0  anon$$obj.o(Region$$Table)
     uwTickFreq                               0x20000000   Data           1  stm32f1xx_hal.o(.data)
     uwTickPrio                               0x20000004   Data           4  stm32f1xx_hal.o(.data)
     uwTick                                   0x20000008   Data           4  stm32f1xx_hal.o(.data)
@@ -1630,9 +1630,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000121
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00002564, Max: 0x00020000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00002560, Max: 0x00020000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00002554, Max: 0x00020000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00002550, Max: 0x00020000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -1775,24 +1775,24 @@ Memory Map of the image
     0x080020e8   0x080020e8   0x000000a2   Code   RO          361    i.get_accel_gyro_data  bmi160.o
     0x0800218a   0x0800218a   0x000000a6   Code   RO          364    i.get_gyro_data     bmi160.o
     0x08002230   0x08002230   0x000000e8   Code   RO           18    i.init_bmi160       main.o
-    0x08002318   0x08002318   0x00000168   Code   RO           19    i.main              main.o
-    0x08002480   0x08002480   0x00000018   Code   RO          369    i.null_ptr_check    bmi160.o
-    0x08002498   0x08002498   0x0000005c   Code   RO          372    i.process_under_sampling  bmi160.o
-    0x080024f4   0x080024f4   0x00000010   Data   RO         2598    .constdata          system_stm32f1xx.o
-    0x08002504   0x08002504   0x00000008   Data   RO         2599    .constdata          system_stm32f1xx.o
-    0x0800250c   0x0800250c   0x00000028   Data   RO         2647    .constdata          c_w.l(_printf_hex_int.o)
-    0x08002534   0x08002534   0x00000020   Data   RO         2857    Region$$Table       anon$$obj.o
+    0x08002318   0x08002318   0x00000164   Code   RO           19    i.main              main.o
+    0x0800247c   0x0800247c   0x00000018   Code   RO          369    i.null_ptr_check    bmi160.o
+    0x08002494   0x08002494   0x0000005c   Code   RO          372    i.process_under_sampling  bmi160.o
+    0x080024f0   0x080024f0   0x00000010   Data   RO         2598    .constdata          system_stm32f1xx.o
+    0x08002500   0x08002500   0x00000008   Data   RO         2599    .constdata          system_stm32f1xx.o
+    0x08002508   0x08002508   0x00000028   Data   RO         2647    .constdata          c_w.l(_printf_hex_int.o)
+    0x08002530   0x08002530   0x00000020   Data   RO         2857    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08002554, Size: 0x000007c0, Max: 0x00002000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08002550, Size: 0x000007c0, Max: 0x00002000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08002554   0x0000000c   Data   RW         1253    .data               stm32f1xx_hal.o
-    0x2000000c   0x08002560   0x00000004   Data   RW         2600    .data               system_stm32f1xx.o
+    0x20000000   0x08002550   0x0000000c   Data   RW         1253    .data               stm32f1xx_hal.o
+    0x2000000c   0x0800255c   0x00000004   Data   RW         2600    .data               system_stm32f1xx.o
     0x20000010        -       0x0000014c   Zero   RW           22    .bss                main.o
     0x2000015c        -       0x00000060   Zero   RW         2729    .bss                c_w.l(libspace.o)
-    0x200001bc   0x08002564   0x00000004   PAD
+    0x200001bc   0x08002560   0x00000004   PAD
     0x200001c0        -       0x00000200   Zero   RW            2    HEAP                startup_stm32f100xb.o
     0x200003c0        -       0x00000400   Zero   RW            1    STACK               startup_stm32f100xb.o
 
@@ -1805,7 +1805,7 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
       1650          0          0          0          0      21618   bmi160.o
-       880        238          0          0        332     283466   main.o
+       876        238          0          0        332     283506   main.o
         64         26        288          0       1536        824   startup_stm32f100xb.o
        150         24          0         12          0       6329   stm32f1xx_hal.o
        172         14          0          0          0      28350   stm32f1xx_hal_cortex.o
@@ -1818,7 +1818,7 @@ Image component sizes
          2          0         24          4          0       1155   system_stm32f1xx.o
 
     ----------------------------------------------------------------------
-      8210        548        344         16       1868     374581   Object Totals
+      8206        548        344         16       1868     374621   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         12          0          0          0          0          0   (incl. Padding)
 
@@ -1879,15 +1879,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      9172        596        384         16       1968     372097   Grand Totals
-      9172        596        384         16       1968     372097   ELF Image Totals
-      9172        596        384         16          0          0   ROM Totals
+      9168        596        384         16       1968     372137   Grand Totals
+      9168        596        384         16       1968     372137   ELF Image Totals
+      9168        596        384         16          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 9556 (   9.33kB)
+    Total RO  Size (Code + RO Data)                 9552 (   9.33kB)
     Total RW  Size (RW Data + ZI Data)              1984 (   1.94kB)
-    Total ROM Size (Code + RO Data + RW Data)       9572 (   9.35kB)
+    Total ROM Size (Code + RO Data + RW Data)       9568 (   9.34kB)
 
 ==============================================================================
 
