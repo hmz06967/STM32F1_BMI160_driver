@@ -21,40 +21,42 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\flyozkan\Documents\STMicroelectronics\Stm32_RB100\bmi160\MDK-ARM\bmi160.uvprojx
+C:\Users\flyozkan\Documents\GitHub\STM32F1_BMI160_driver\MDK-ARM\bmi160.uvprojx
 Project File Date:  11/24/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'bmi160'
 compiling main.c...
-../Core/Src/main.c(56): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(64): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
           sprintf(Buffer, "BMI160 initialization success !\n");
-../Core/Src/main.c(59): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(67): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
           sprintf(Buffer, "Chip ID 0x%X\n", bmi160dev.chip_id);
-../Core/Src/main.c(65): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(73): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
   			  sprintf(Buffer, "bmi160_init error %d\n", rslt);
-../Core/Src/main.c(109): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(117): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
   			  sprintf(Buffer, "bmi160 CONFIG error %d\n", rslt);
-../Core/Src/main.c(162): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(170): warning:  #188-D: enumerated type mixed with another type
   		stat_i2c = write_register(BMI160_COMMAND_REG_ADDR, BMI160_SOFT_RESET_CMD);
-../Core/Src/main.c(163): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(171): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
       sprintf(Buffer, "Write// Add: 0x%X, Value: 0x%X, Stat: %d \n", BMI160_COMMAND_REG_ADDR, (uint8_t)BMI160_SOFT_RESET_CMD, stat_i2c);
-../Core/Src/main.c(166): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(174): warning:  #188-D: enumerated type mixed with another type
   		stat_i2c = read_register(BMI160_COMMAND_REG_ADDR, (uint8_t*)&data);
-../Core/Src/main.c(167): warning:  #767-D: conversion from pointer to smaller integer
+../Core/Src/main.c(175): warning:  #767-D: conversion from pointer to smaller integer
       sprintf(Buffer, "Read// Add: 0x%X, Value: 0x%X, Stat: %d \n", BMI160_COMMAND_REG_ADDR, (uint8_t)data, stat_i2c);
-../Core/Src/main.c(167): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(175): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
       sprintf(Buffer, "Read// Add: 0x%X, Value: 0x%X, Stat: %d \n", BMI160_COMMAND_REG_ADDR, (uint8_t)data, stat_i2c);
-../Core/Src/main.c(185): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(193): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
   	sprintf(Buffer, "starting.. !\n");
-../Core/Src/main.c(191): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+../Core/Src/main.c(199): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
   			sprintf(Buffer, "Device not ready  !\n"); 
-../Core/Src/main.c: 11 warnings, 0 errors
+../Core/Src/main.c(221): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *restrict"
+  				snprintf(Buffer, sizeof(Buffer), "ax:%d ay:%d az:%d gx:%d gy:%d gz:%d\n", bmi160_accel.x, bmi160_accel.y, bmi160_accel.z, bmi160_gyro.x, bmi160_gyro.y, bmi160_gyro.z);
+../Core/Src/main.c: 12 warnings, 0 errors
 linking...
-Program Size: Code=9168 RO-data=384 RW-data=16 ZI-data=1968  
+Program Size: Code=9248 RO-data=384 RW-data=16 ZI-data=1968  
 FromELF: creating hex file...
-"bmi160\bmi160.axf" - 0 Error(s), 11 Warning(s).
+"bmi160\bmi160.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 

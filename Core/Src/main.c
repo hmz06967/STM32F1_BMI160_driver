@@ -208,18 +208,18 @@ int main(void)
 		
 		init_bmi160();
 		
-		uint8_t Buffer1[100];
-		
 		//soft reset manuel + test
     //i2c_test_bmi();
 		
 		while (1 && times_to_read < 500)
 		{
+
+		
 				// To read both Accel and Gyro data 
 				bmi160_get_sensor_data((BMI160_ACCEL_SEL | BMI160_GYRO_SEL), &bmi160_accel, &bmi160_gyro, &bmi160dev);
 			
-				sprintf((char *)Buffer1, "ax:%d ay:%d az:%d gx:%d gy:%d gz:%d\n", bmi160_accel.x, bmi160_accel.y, bmi160_accel.z, bmi160_gyro.x, bmi160_gyro.y, bmi160_gyro.z);
-				HAL_UART_Transmit(&huart1, (uint8_t *)Buffer1, sizeof(Buffer1), 100);
+				snprintf(Buffer, sizeof(Buffer), "ax:%d ay:%d az:%d gx:%d gy:%d gz:%d\n", bmi160_accel.x, bmi160_accel.y, bmi160_accel.z, bmi160_gyro.x, bmi160_gyro.y, bmi160_gyro.z);
+				HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, sizeof(Buffer), 100);
 
 			  HAL_Delay(100);
 			
