@@ -411,7 +411,7 @@
             <File>
               <FileName>bmi160.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\bmi160.c</FilePath>
+              <FilePath>..\Core\Src\bmi160.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,4 +1,4 @@
-bmi160\bmi160.o: bmi160.c
+bmi160\bmi160.o: ..\Core\Src\bmi160.c
 bmi160\bmi160.o: ../Core/Inc/bmi160.h
 bmi160\bmi160.o: ../Core/Inc/bmi160_defs.h
 bmi160\bmi160.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

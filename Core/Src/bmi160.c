@@ -1372,10 +1372,10 @@ static int8_t map_feature_interrupt(const struct bmi160_int_settg *int_config, c
  * @brief This API reads the data from the given register address
  * of sensor.
  */
-int8_t bmi160_get_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const struct bmi160_dev *dev)
+int8_t bmi160_get_regs(uint16_t reg_addr, uint8_t *data, uint16_t len, const struct bmi160_dev *dev)
 {
     int8_t rslt = BMI160_OK;
-
+	
     /* Null-pointer check */
     if ((dev == NULL) || (dev->read == NULL))
     {
@@ -1394,7 +1394,12 @@ int8_t bmi160_get_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const stru
         }
 
         //rslt = dev->read(dev->id, reg_addr, data, len);
-				rslt = dev->read(dev->hi2cx, dev->id, (uint16_t)(reg_addr),  len, *data, 2, 100)
+				rslt = dev->read(dev->hi2cx, (uint16_t)(dev->id<<1), reg_addr, I2C_MEMADD_SIZE_8BIT, (uint8_t *)data, len, 100);
+				//rslt = (int8_t)data;
+				
+//				//UART_DEBUG
+//				sprintf(Buffer, "I2C_R add: 0x%X len: %d value: 0x%X \n", reg_addr, len, (uint8_t)*data);
+//				dev->uart_write(dev->huart, Buffer, sizeof(Buffer), 100); 
     }
 
     return rslt;
@@ -1404,11 +1409,11 @@ int8_t bmi160_get_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const stru
  * @brief This API writes the given data to the register address
  * of sensor.
  */
-int8_t bmi160_set_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const struct bmi160_dev *dev)
+int8_t bmi160_set_regs(uint16_t reg_addr, uint8_t *data, uint16_t len, const struct bmi160_dev *dev)
 {
     int8_t rslt = BMI160_OK;
     uint8_t count = 0;
-
+	
     /* Null-pointer check */
     if ((dev == NULL) || (dev->write == NULL))
     {
@@ -1429,11 +1434,11 @@ int8_t bmi160_set_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const stru
         if ((dev->prev_accel_cfg.power == BMI160_ACCEL_NORMAL_MODE) ||
             (dev->prev_gyro_cfg.power == BMI160_GYRO_NORMAL_MODE))
         {
-            rslt = dev->write(&dev->hi2cx, dev->id, (uint16_t)reg_addr, I2C_MEMADD_SIZE_8BIT, data, 2, 100);
+            rslt = dev->write(dev->hi2cx, (uint16_t)(dev->id<<1), reg_addr, I2C_MEMADD_SIZE_8BIT, data, len, 100);
 
             /* Kindly refer bmi160 data sheet section 3.2.4 */
-            dev->delay_ms(1);
-
+            dev->delay_ms(5);
+					
         }
         else
         {
@@ -1442,7 +1447,14 @@ int8_t bmi160_set_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const stru
             for (; count < len; count++)
             {
                 //rslt = dev->write(dev->id, reg_addr, &data[count], 1);
-							  rslt = dev->write(&dev->hi2cx, dev->id, (uint16_t)reg_addr, I2C_MEMADD_SIZE_8BIT, &data[count], 2, 100);
+							  
+
+//							  //UART_DEBUG
+//								sprintf(Buffer, "I2C_T add: 0x%X value: 0x%X \n", reg_addr, data[count]);
+//								dev->uart_write(dev->huart, Buffer, sizeof(Buffer), 100); 
+							
+							  rslt = dev->write(dev->hi2cx, (uint16_t)(dev->id<<1), reg_addr, I2C_MEMADD_SIZE_8BIT, &data[count], len, 100);
+								
                 reg_addr++;
 
                 /* Kindly refer bmi160 data sheet section 3.2.4 */
@@ -1450,7 +1462,9 @@ int8_t bmi160_set_regs(uint8_t reg_addr, uint8_t *data, uint16_t len, const stru
 
             }
         }
+				
 
+				
         if (rslt != BMI160_OK)
         {
             rslt = BMI160_E_COM_FAIL;
@@ -1469,7 +1483,7 @@ int8_t bmi160_init(struct bmi160_dev *dev)
 {
     int8_t rslt;
     uint8_t data;
-    uint8_t try = 3;
+	  uint8_t try = 3;
 
     /* Null-pointer check */
     rslt = null_ptr_check(dev);
@@ -1488,10 +1502,11 @@ int8_t bmi160_init(struct bmi160_dev *dev)
 
         while ((try--) && (dev->chip_id != BMI160_CHIP_ID))
         {
-            /* Read chip_id */
             rslt = bmi160_get_regs(BMI160_CHIP_ID_ADDR, &dev->chip_id, 1, dev);
         }
-
+				
+				//rslt = bmi160_get_regs(BMI160_CHIP_ID_ADDR, &dev->chip_id, 1, dev);
+			
         if ((rslt == BMI160_OK) && (dev->chip_id == BMI160_CHIP_ID))
         {
             dev->any_sig_sel = BMI160_BOTH_ANY_SIG_MOTION_DISABLED;
@@ -1514,7 +1529,7 @@ int8_t bmi160_init(struct bmi160_dev *dev)
  */
 int8_t bmi160_soft_reset(struct bmi160_dev *dev)
 {
-    int8_t rslt;
+    int8_t rslt = BMI160_OK;
     uint8_t data = BMI160_SOFT_RESET_CMD;
 
     /* Null-pointer check */
@@ -1525,9 +1540,11 @@ int8_t bmi160_soft_reset(struct bmi160_dev *dev)
     else
     {
         /* Reset the device */
-        rslt = bmi160_set_regs(BMI160_COMMAND_REG_ADDR, &data, 1, dev);
+        //rslt = bmi160_set_regs(BMI160_COMMAND_REG_ADDR, &data, 1, dev);
+			
         dev->delay_ms(BMI160_SOFT_RESET_DELAY_MS);
-        if ((rslt == BMI160_OK) && (dev->intf == BMI160_SPI_INTF))
+        
+			  if ((rslt == BMI160_OK) && (dev->intf == BMI160_SPI_INTF))
         {
             /* Dummy read of 0x7F register to enable SPI Interface
              * if SPI is used */
@@ -1537,6 +1554,7 @@ int8_t bmi160_soft_reset(struct bmi160_dev *dev)
         if (rslt == BMI160_OK)
         {
             /* Update the default parameters */
+					
             default_param_settg(dev);
         }
     }
@@ -1560,6 +1578,7 @@ int8_t bmi160_set_sens_conf(struct bmi160_dev *dev)
     else
     {
         rslt = set_accel_conf(dev);
+
         if (rslt == BMI160_OK)
         {
             rslt = set_gyro_conf(dev);
@@ -3163,8 +3182,9 @@ static int8_t set_accel_conf(struct bmi160_dev *dev)
     {
         /* Write output data rate and bandwidth */
         rslt = bmi160_set_regs(BMI160_ACCEL_CONFIG_ADDR, &data[0], 1, dev);
+
         if (rslt == BMI160_OK)
-        {
+        {		
             dev->prev_accel_cfg.odr = dev->accel_cfg.odr;
             dev->prev_accel_cfg.bw = dev->accel_cfg.bw;
 
@@ -3764,7 +3784,6 @@ static int8_t get_accel_gyro_data(uint8_t len,
     uint8_t lsb;
     uint8_t msb;
     int16_t msblsb;
-
     /* read both accel and gyro sensor data
      * along with time if requested */
     rslt = bmi160_get_regs(BMI160_GYRO_DATA_ADDR, data_array, 12 + len, dev);
@@ -3809,6 +3828,11 @@ static int8_t get_accel_gyro_data(uint8_t len,
             accel->sensortime = 0;
             gyro->sensortime = 0;
         }
+				
+//							  //UART_DEBUG
+//								sprintf(Buffer, "SENSOR: %X\n", (int16_t)msblsb);
+//								dev->uart_write(dev->huart, Buffer, sizeof(Buffer), 100); 
+				
     }
     else
     {

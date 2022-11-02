@@ -28,8 +28,10 @@ bmi160\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 bmi160\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 bmi160\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 bmi160\main.o: ../Core/Inc/bmi160.h
 bmi160\main.o: ../Core/Inc/bmi160_defs.h
 bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+bmi160\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
