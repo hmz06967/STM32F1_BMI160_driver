@@ -69,11 +69,26 @@ void i2c_test_bmi(){
 		stat_i2c = HAL_I2C_Mem_Read(&hi2c1, BMI160_I2C_ADDR<<1, BMI160_COMMAND_REG_ADDR, 1, data, 1, 10);
     uprint( "bmi160: Read<-Address: 0x%X, Value: 0x%X, Stat:%d\n", BMI160_COMMAND_REG_ADDR, data[0], stat_i2c);
 	
-		if(stat_i2c!=HAL_OK)uprint("bmi160: test error! \n");
+		if(stat_i2c!=HAL_OK)
+			uprint("bmi160: test error! \n");
 		else
 			uprint("bmi160: test ok \n");
 }
-
+void bmi_clibration(){
+	//get calibre offset
+	struct bmi160_offsets offset;
+	struct bmi160_foc_conf foc_confg;
+	bmi160_get_offsets(&offset, &bmi160dev);
+	uprint("bmi160: offset\n");
+	uprint("no calibre: ax:%d\tay:%d\taz:%d\tgx:%d\tgy:%d\tgz:%d\n", offset.off_acc_x, offset.off_acc_y, offset.off_acc_z, offset.off_gyro_x, offset.off_gyro_y, offset.off_gyro_z);
+	uprint("bmi160: calibrating..\n");
+ 
+	bmi160_start_foc(&foc_confg, &offset, &bmi160dev);
+	bmi160_update_nvm(&bmi160dev);
+	bmi160_get_offsets(&offset, &bmi160dev);
+	uprint("calibre offset ax:%d\tay:%d\taz:%d\tgx:%d\tgy:%d\tgz:%d\n", offset.off_acc_x, offset.off_acc_y, offset.off_acc_z, offset.off_gyro_x, offset.off_gyro_y, offset.off_gyro_z);
+	uprint("foc confg: ax%d\tay:%d\taz:%d\n", foc_confg.foc_acc_x, foc_confg.foc_acc_y, foc_confg.foc_acc_z);
+}
 static void init_bmi160(void){
     int8_t rslt;
     rslt = bmi160_init(&bmi160dev);
@@ -107,7 +122,9 @@ static void init_bmi160(void){
     if (rslt != BMI160_OK){
 				uprint("bmi160: config error %d\n", rslt);
 				Error_Handler();
-    }
+    }else{
+			bmi_clibration();
+		}
 
 
 }
