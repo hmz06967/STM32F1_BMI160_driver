@@ -16,6 +16,7 @@
 /* own header files */
 /*********************************************************************/
 
+#include "bmi160.h"
 
 #define BMI160_INTERFACE_I2C  1
 #define BMI160_INTERFACE_SPI  0
@@ -29,22 +30,9 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART1_UART_Init(void);
 
-
-
-int8_t i2c_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *data, uint16_t len){
-	return HAL_I2C_Mem_Write(&hi2c1, (uint16_t)dev_addr, (uint16_t)reg_addr, I2C_MEMADD_SIZE_8BIT, data, len, 10);
-}
-
-int8_t i2c_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t *data, uint16_t len){
-	return HAL_I2C_Mem_Read(&hi2c1, (uint16_t)dev_addr, (uint16_t)reg_addr, I2C_MEMADD_SIZE_8BIT, data, len, 10);
-}
-
-
 /*
 	bmi160 init
 */
-
-#include "bmi160.h"
 
 /*! bmi160 shuttle id */
 #define BMI160_SHUTTLE_ID     0xD8
@@ -71,14 +59,14 @@ void uprint( const char* format, ...){
 }
 void i2c_test_bmi(){
 		uint8_t data[1];
-		int8_t stat_i2c;
+		HAL_StatusTypeDef stat_i2c;
 	
 		data[0] = BMI160_SOFT_RESET_CMD;
-		stat_i2c = i2c_write((BMI160_I2C_ADDR<<1), BMI160_SOFT_RESET_CMD, data, 1);
+		stat_i2c = HAL_I2C_Mem_Write(&hi2c1, BMI160_I2C_ADDR<<1, BMI160_COMMAND_REG_ADDR, 1, data, 1, 10);
     uprint("bmi160: Write->Address: 0x%X, Value: 0x%X, Stat:%d\n", BMI160_SOFT_RESET_CMD, data[0], stat_i2c); 
 	
 		data[0] = 0;
-		stat_i2c = i2c_read((BMI160_I2C_ADDR<<1), BMI160_COMMAND_REG_ADDR, data, 1);
+		stat_i2c = HAL_I2C_Mem_Read(&hi2c1, BMI160_I2C_ADDR<<1, BMI160_COMMAND_REG_ADDR, 1, data, 1, 10);
     uprint( "bmi160: Read<-Address: 0x%X, Value: 0x%X, Stat:%d\n", BMI160_COMMAND_REG_ADDR, data[0], stat_i2c);
 	
 		if(stat_i2c!=HAL_OK)
@@ -90,15 +78,15 @@ void bmi_clibration(){
 	//get calibre offset
 	struct bmi160_offsets offset;
 	struct bmi160_foc_conf foc_confg;
-	bmi160_get_offsets(&offset);
+	bmi160_get_offsets(&offset, &bmi160dev);
 	uprint("bmi160: offset\n");
 	uprint("no calibre: ax:%d\tay:%d\taz:%d\tgx:%d\tgy:%d\tgz:%d\n", offset.off_acc_x, offset.off_acc_y, offset.off_acc_z, offset.off_gyro_x, offset.off_gyro_y, offset.off_gyro_z);
 	uprint("bmi160: calibrating..\n");
  
-	bmi160_start_foc(&foc_confg, &offset);
+	bmi160_start_foc(&foc_confg, &offset, &bmi160dev);
 	
-	bmi160_get_offsets(&offset);
-	bmi160_update_nvm();
+	bmi160_get_offsets(&offset, &bmi160dev);
+	bmi160_update_nvm(&bmi160dev);
 	uprint("calibre offset ax:%d\tay:%d\taz:%d\tgx:%d\tgy:%d\tgz:%d\n", offset.off_acc_x, offset.off_acc_y, offset.off_acc_z, offset.off_gyro_x, offset.off_gyro_y, offset.off_gyro_z);
 	uprint("foc confg: ax%d\tay:%d\taz:%d\n", foc_confg.foc_acc_x, foc_confg.foc_acc_y, foc_confg.foc_acc_z);
 }
@@ -130,7 +118,7 @@ static void init_bmi160(void){
     bmi160dev.gyro_cfg.power = BMI160_GYRO_NORMAL_MODE;
 
     // Set the sensor configuration 
-    rslt = bmi160_set_sens_conf();
+    rslt = bmi160_set_sens_conf(&bmi160dev);
 		
     if (rslt != BMI160_OK){
 				uprint("bmi160: config error %d\n", rslt);
@@ -146,17 +134,30 @@ static void init_bmi160_sensor_driver_interface(void){
     /* I2C setup */
     /* link read/write/delay function of host system to appropriate
      * bmi160 function call prototypes */
-	//bmi160dev.hi2cx = &hi2c1;
-	//bmi160dev.huart = &huart1;
-
-	bmi160dev.write = i2c_write;
-	bmi160dev.read = i2c_read;
+	bmi160dev.hi2cx = &hi2c1;
+	bmi160dev.huart = &huart1;
+	bmi160dev.uart_write = HAL_UART_Transmit;
+	bmi160dev.write = HAL_I2C_Mem_Write;
+	bmi160dev.read = HAL_I2C_Mem_Read;
 	bmi160dev.delay_ms = HAL_Delay; 
-	
 	/* set correct i2c address */
 	bmi160dev.id = BMI160_DEV_ADDR;
 	bmi160dev.intf = BMI160_I2C_INTF;
 }
+
+
+uint8_t read_register(uint8_t register_pointer, uint8_t *return_value){
+    HAL_StatusTypeDef status = HAL_OK;
+    status = HAL_I2C_Mem_Read(&hi2c1, (uint16_t)(BMI160_DEV_ADDR<<1), (uint16_t)register_pointer, I2C_MEMADD_SIZE_8BIT, return_value, 1, 100);
+    return status;
+}
+
+uint8_t write_register(uint8_t register_pointer, uint8_t value){
+    HAL_StatusTypeDef status = HAL_OK;
+    status = HAL_I2C_Mem_Write(&hi2c1, (uint16_t)(BMI160_DEV_ADDR<<1), (uint16_t)register_pointer, I2C_MEMADD_SIZE_8BIT, &value, 1, 100);
+    return status;
+}
+
 
 int main(void)
 {
@@ -177,7 +178,7 @@ int main(void)
 	struct bmi160_sensor_data bmi160_gyro;
 	
 	while (1){
-			int8_t rsp = bmi160_get_sensor_data(BMI160_ACCEL_SEL | BMI160_GYRO_SEL | BMI160_TIME_SEL, &bmi160_accel, &bmi160_gyro);
+			int8_t rsp = bmi160_get_sensor_data(BMI160_ACCEL_SEL | BMI160_GYRO_SEL | BMI160_TIME_SEL, &bmi160_accel, &bmi160_gyro, &bmi160dev);
 			uprint(
 						"%d\tax:%d\tay:%d\taz:%d\tgx:%d\tgy:%d\tgz:%d\n", 
 						count, 

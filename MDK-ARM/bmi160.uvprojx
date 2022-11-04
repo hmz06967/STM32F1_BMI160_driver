@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F100xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\bmi160</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\bmi160\full</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -506,7 +506,7 @@
             <File>
               <FileName>bmi160.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bmi160\bmi160.c</FilePath>
+              <FilePath>..\bmi160\full\bmi160.c</FilePath>
             </File>
           </Files>
         </Group>

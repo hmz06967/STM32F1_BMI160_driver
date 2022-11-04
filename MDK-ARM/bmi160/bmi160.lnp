@@ -19,7 +19,7 @@
 "bmi160\stm32f1xx_hal_tim_ex.o"
 "bmi160\stm32f1xx_hal_uart.o"
 "bmi160\system_stm32f1xx.o"
-"bmi160\bmi160_1.o"
+"bmi160\bmi160.o"
 --strict --scatter "bmi160\bmi160.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
